@@ -1,0 +1,322 @@
+<!doctype html><html lang="zh-CN"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>飞书多维表格气泡图插件</title><style>* {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: #f5f5f5;
+            height: 100vh;
+            overflow: hidden;
+        }
+        
+        .plugin-container {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .plugin-header {
+            background: #fff;
+            padding: 15px 20px;
+            border-bottom: 1px solid #e0e0e0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        
+        .plugin-title {
+            color: #333;
+            font-size: 18px;
+            margin: 0;
+        }
+        
+        .plugin-controls {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .btn {
+            padding: 8px 16px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-primary {
+            background: #3370ff;
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            background: #2861e6;
+        }
+        
+        .btn-secondary {
+            background: #fff;
+            color: #3370ff;
+            border: 1px solid #3370ff;
+        }
+        
+        .btn-secondary:hover {
+            background: #f0f7ff;
+        }
+        
+        .plugin-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            padding: 20px;
+            gap: 20px;
+        }
+        
+        .config-panel {
+            background: #fff;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            padding: 20px;
+            max-height: 300px;
+            overflow-y: auto;
+        }
+        
+        .config-title {
+            color: #333;
+            margin-bottom: 15px;
+            font-size: 16px;
+        }
+        
+        .config-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+        
+        .form-group label {
+            font-weight: 500;
+            color: #333;
+            font-size: 14px;
+        }
+        
+        .form-group input {
+            padding: 8px 12px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+        
+        .form-group input:focus {
+            outline: none;
+            border-color: #3370ff;
+            box-shadow: 0 0 0 2px rgba(51, 112, 255, 0.2);
+        }
+        
+        .chart-section {
+            flex: 1;
+            background: #fff;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            padding: 20px;
+            position: relative;
+            min-height: 400px;
+        }
+        
+        #chart {
+            width: 100%;
+            height: 100%;
+            min-height: 350px;
+        }
+        
+        .calculator-panel {
+            background: #fff;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            padding: 20px;
+            display: none;
+        }
+        
+        .calc-container {
+            max-width: 280px;
+            margin: 0 auto;
+        }
+        
+        .calc-display {
+            width: 100%;
+            padding: 15px;
+            font-size: 18px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            text-align: right;
+            margin-bottom: 15px;
+            background: #f9f9f9;
+        }
+        
+        .calc-buttons {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 8px;
+        }
+        
+        .calc-btn {
+            padding: 18px;
+            font-size: 16px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            background: #f0f0f0;
+            transition: all 0.2s ease;
+        }
+        
+        .calc-btn:hover {
+            background: #e0e0e0;
+        }
+        
+        .calc-btn.operator {
+            background: #3370ff;
+            color: white;
+        }
+        
+        .calc-btn.operator:hover {
+            background: #2861e6;
+        }
+        
+        .calc-btn.equals {
+            background: #52c41a;
+            color: white;
+            grid-column: span 2;
+        }
+        
+        .calc-btn.equals:hover {
+            background: #45a612;
+        }
+        
+        .calc-btn.clear {
+            background: #ff4d4f;
+            color: white;
+        }
+        
+        .calc-btn.clear:hover {
+            background: #e63c3e;
+        }
+        
+        .status-bar {
+            background: #fff;
+            border-top: 1px solid #e0e0e0;
+            padding: 12px 20px;
+            font-size: 12px;
+            color: #666;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .loading {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+            color: #666;
+            z-index: 10;
+        }
+        
+        .spinner {
+            border: 3px solid #f3f3f3;
+            border-top: 3px solid #3370ff;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 10px;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        .message {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 15px 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            z-index: 1000;
+            max-width: 300px;
+            animation: slideIn 0.3s ease;
+        }
+        
+        .message.error {
+            background: #ff4d4f;
+            color: white;
+        }
+        
+        .message.success {
+            background: #52c41a;
+            color: white;
+        }
+        
+        .message.info {
+            background: #3370ff;
+            color: white;
+        }
+        
+        @keyframes slideIn {
+            from {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+        
+        .field-mapping {
+            background: #f0f7ff;
+            border: 1px solid #b3d4ff;
+            border-radius: 6px;
+            padding: 15px;
+            margin-bottom: 15px;
+        }
+        
+        .field-mapping h4 {
+            color: #3370ff;
+            margin-bottom: 10px;
+            font-size: 14px;
+        }
+        
+        .field-mapping p {
+            color: #666;
+            margin: 5px 0;
+            font-size: 12px;
+        }
+        
+        .send-actions {
+            text-align: center;
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 1px solid #eee;
+        }
+        
+        .send-actions .btn {
+            background: #3370ff;
+            color: white;
+            width: 100%;
+            max-width: 200px;
+        }
+        
+        .send-actions .btn:hover {
+            background: #2861e6;
+        }</style><script defer="defer" src="plugin.js"></script></head><body><div class="plugin-container"><div class="plugin-header"><h3 class="plugin-title">飞书多维表格气泡图插件</h3><div class="plugin-controls"><button class="btn btn-primary" onclick="loadTableData()">刷新数据</button> <button class="btn btn-secondary" onclick="exportChart()">导出图表</button> <button class="btn btn-secondary" onclick="toggleCalculator()">计算器</button> <button class="btn btn-secondary" onclick="showConfig()">配置</button></div></div><div class="plugin-content"><div class="config-panel hidden" id="configPanel"><h4 class="config-title">飞书API配置</h4><div class="field-mapping"><h4>配置说明</h4><p>1. 在飞书开放平台创建应用，获取App ID和App Secret</p><p>2. 添加权限：bitable:record:readonly</p><p>3. 输入表格Token和字段映射信息</p><p>4. 点击"测试连接"验证配置</p></div><div class="config-grid"><div class="form-group"><label>App ID:</label> <input id="appId" placeholder="输入飞书应用App ID"></div><div class="form-group"><label>App Secret:</label> <input type="password" id="appSecret" placeholder="输入飞书应用App Secret"></div><div class="form-group"><label>表格Token:</label> <input id="appToken" placeholder="输入多维表格Token"></div><div class="form-group"><label>表格ID:</label> <input id="tableId" placeholder="输入表格ID"></div></div><div class="config-grid"><div class="form-group"><label>X轴字段:</label> <input id="xField" value="销售额" placeholder="X轴数据字段名"></div><div class="form-group"><label>Y轴字段:</label> <input id="yField" value="利润率" placeholder="Y轴数据字段名"></div><div class="form-group"><label>气泡大小字段:</label> <input id="sizeField" value="市场份额" placeholder="气泡大小字段名"></div><div class="form-group"><label>标签字段:</label> <input id="labelField" value="产品名称" placeholder="气泡标签字段名"></div></div><div style="text-align: center; margin-top: 15px;"><button class="btn btn-primary" onclick="testConnection()">测试连接</button> <button class="btn btn-secondary" onclick="saveConfig()">保存配置</button> <button class="btn btn-secondary" onclick="hideConfig()">关闭</button></div></div><div class="chart-section"><div id="chart"></div><div id="loading" class="loading hidden"><div class="spinner"></div><p>正在加载数据...</p></div></div><div class="calculator-panel hidden" id="calculatorPanel"><h4 class="config-title">自定义计算器</h4><div class="calc-container"><input id="calcDisplay" class="calc-display" readonly="readonly" value="0"><div class="calc-buttons"><button class="calc-btn clear" onclick="calcClear()">C</button> <button class="calc-btn" onclick="calcDelete()">←</button> <button class="calc-btn" onclick="calcOperator('/')">÷</button> <button class="calc-btn operator" onclick="calcOperator('*')">×</button> <button class="calc-btn" onclick="calcNumber('7')">7</button> <button class="calc-btn" onclick="calcNumber('8')">8</button> <button class="calc-btn" onclick="calcNumber('9')">9</button> <button class="calc-btn operator" onclick="calcOperator('-')">-</button> <button class="calc-btn" onclick="calcNumber('4')">4</button> <button class="calc-btn" onclick="calcNumber('5')">5</button> <button class="calc-btn" onclick="calcNumber('6')">6</button> <button class="calc-btn operator" onclick="calcOperator('+')">+</button> <button class="calc-btn" onclick="calcNumber('1')">1</button> <button class="calc-btn" onclick="calcNumber('2')">2</button> <button class="calc-btn" onclick="calcNumber('3')">3</button> <button class="calc-btn equals" onclick="calcEquals()">=</button> <button class="calc-btn" onclick="calcNumber('0')" style="grid-column: span 2;">0</button> <button class="calc-btn" onclick="calcNumber('.')">.</button></div><div class="send-actions"><button class="btn" onclick="sendCalcResults()">发送到飞书表格</button></div></div></div></div><div class="status-bar"><span id="statusText">准备就绪</span> <span id="dataCount">数据量: 0</span></div></div><script src="https://cdn.jsdelivr.net/npm/echarts@5/dist/echarts.min.js"></script><script src="./plugin.js"></script></body></html>
