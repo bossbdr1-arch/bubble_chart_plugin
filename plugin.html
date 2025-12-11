@@ -1,4 +1,51 @@
-<!doctype html><html lang="zh-CN"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>飞书多维表格气泡图插件</title><style>* {
+<!doctype html><html lang="zh-CN"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>飞书多维表格气泡图插件</title><script>// 调试环境检测和初始化
+        (function() {
+            // 检查URL参数是否启用调试模式
+            const urlParams = new URLSearchParams(window.location.search);
+            const isDebugMode = urlParams.get('debug') === 'true';
+            
+            // 创建全局调试状态
+            window.__DEBUG_MODE__ = isDebugMode;
+            window.__DEBUG_START_TIME__ = Date.now();
+            
+            // 调试日志函数
+            window.debugLog = function(emoji, message, data) {
+                if (!window.__DEBUG_MODE__) return;
+                
+                const timestamp = new Date().toLocaleTimeString('zh-CN');
+                const elapsed = Date.now() - window.__DEBUG_START__;
+                const prefix = `[${timestamp} (+${elapsed}ms)] ${emoji}`;
+                
+                if (data !== undefined) {
+                    console.log(prefix, message, data);
+                } else {
+                    console.log(prefix, message);
+                }
+            };
+            
+            // 快捷调试函数
+            window.debug = (msg, data) => window.debugLog('🔍', msg, data);
+            window.info = (msg, data) => window.debugLog('ℹ️', msg, data);
+            window.warn = (msg, data) => window.debugLog('⚠️', msg, data);
+            window.error = (msg, data) => window.debugLog('❌', msg, data);
+            
+            // 函数调用跟踪
+            window.traceFunction = function(funcName, isEntry, params) {
+                if (!window.__DEBUG_MODE__) return;
+                
+                const emoji = isEntry ? '🚀' : '✅';
+                const direction = isEntry ? '进入' : '退出';
+                const message = `${direction}函数: ${funcName}()`;
+                window.debugLog(emoji, message, params);
+            };
+            
+            // 如果启用调试模式，显示提示
+            if (isDebugMode) {
+                console.log('🚀 飞书气泡图插件调试模式已启用');
+                console.log('📋 可用调试函数: debug(), info(), warn(), error(), traceFunction()');
+                console.log('⚙️  要关闭调试模式，请移除URL参数: debug=true');
+            }
+        })();</script><style>* {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
