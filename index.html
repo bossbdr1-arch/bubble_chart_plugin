@@ -1,34 +1,57 @@
-﻿<!DOCTYPE html>
-<html>
+<!DOCTYPE html>
+<html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>多维表格插件</title>
-    <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8" />
+  <link rel="icon" type="image/svg+xml" href="./favicon.svg" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Base Extensions</title>
+  <script type="module" crossorigin src="./assets/index.213a62d1.js"></script>
+  <link rel="stylesheet" href="./assets/index.46930d02.css">
 </head>
+
 <body>
-    <div class="container">
-        <header>
-            <h1>多维表格信息查看器</h1>
-            <p class="subtitle">自动获取当前多维表格信息</p>
-        </header>
-
-        <div id="loading" class="loading">
-            <div class="spinner"></div>
-            <p>正在加载飞书环境，请稍候...</p>
+  <main class="main p-3 pt-4">
+    <h4 class="mb-3">Edit <code class="code">src/index.ts</code> and save to reload</h3>
+      <form>
+        <div class="mb-3">
+          <label class="form-label">Development guide</label>
+          <div>
+            <a href="https://lark-technologies.larksuite.com/docx/HvCbdSzXNowzMmxWgXsuB2Ngs7d" target="_blank"
+              rel="noopener noreferrer">
+              Base Extensions Guide
+            </a>
+            、
+            <a href="https://bytedance.feishu.cn/docx/HazFdSHH9ofRGKx8424cwzLlnZc" target="_blank"
+              rel="noopener noreferrer">
+              多维表格插件开发指南
+            </a>
+          </div>
         </div>
-
-        <div id="error" class="error" style="display: none;">
-            <div class="error-icon">⚠️</div>
-            <p id="error-message"></p>
-            <p class="error-help">请确保在飞书多维表格编辑页面中运行此插件</p>
+        <div class="mb-3">
+          <label class="form-label">API</label>
+          <div>
+            <a href="https://lark-technologies.larksuite.com/docx/Y6IcdywRXoTYSOxKwWvuLK09sFe" target="_blank"
+              rel="noopener noreferrer">
+              Base Extensions Front-end API
+            </a>
+            、
+            <a href="https://bytedance.feishu.cn/docx/HjCEd1sPzoVnxIxF3LrcKnepnUf" target="_blank"
+              rel="noopener noreferrer">
+              多维表格插件API
+            </a>
+          </div>
         </div>
-
-        <div id="content" class="content">
-            <!-- 插件内容将动态渲染在这里 -->
+        <div class="mb-3">
+          <label for="tableSelect" class="form-label">Select Table</label>
+          <select id='tableSelect' class="form-select"></select>
         </div>
-    </div>
-
-    <script src="app.js"></script>
+        <button class='btn btn-outline-primary' type="button" id="addRecord">
+          Add Record
+        </button>
+      </form>
+  </main>
+  
 </body>
+
 </html>
