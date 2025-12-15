@@ -1,57 +1,57 @@
 <!DOCTYPE html>
-<html lang="en">
-
+<html lang="zh-CN">
 <head>
   <meta charset="UTF-8" />
-  <link rel="icon" type="image/svg+xml" href="./favicon.svg" />
+  <title>多维表格气泡图插件</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Base Extensions</title>
-  <script type="module" crossorigin src="./assets/index.213a62d1.js"></script>
-  <link rel="stylesheet" href="./assets/index.46930d02.css">
+
+  <!-- ECharts -->
+  <script src="https://cdn.jsdelivr.net/npm/echarts@5/dist/echarts.min.js"></script>
+
+  <style>
+    body {
+      margin: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto;
+      background: #f7f8fa;
+    }
+
+    .container {
+      padding: 16px;
+    }
+
+    .controls {
+      display: flex;
+      gap: 12px;
+      margin-bottom: 12px;
+      flex-wrap: wrap;
+    }
+
+    select, button {
+      padding: 6px 10px;
+      font-size: 14px;
+    }
+
+    #chart {
+      width: 100%;
+      height: 420px;
+      background: #fff;
+      border-radius: 8px;
+    }
+  </style>
 </head>
 
 <body>
-  <main class="main p-3 pt-4">
-    <h4 class="mb-3">Edit <code class="code">src/index.ts</code> and save to reload</h3>
-      <form>
-        <div class="mb-3">
-          <label class="form-label">Development guide</label>
-          <div>
-            <a href="https://lark-technologies.larksuite.com/docx/HvCbdSzXNowzMmxWgXsuB2Ngs7d" target="_blank"
-              rel="noopener noreferrer">
-              Base Extensions Guide
-            </a>
-            、
-            <a href="https://bytedance.feishu.cn/docx/HazFdSHH9ofRGKx8424cwzLlnZc" target="_blank"
-              rel="noopener noreferrer">
-              多维表格插件开发指南
-            </a>
-          </div>
-        </div>
-        <div class="mb-3">
-          <label class="form-label">API</label>
-          <div>
-            <a href="https://lark-technologies.larksuite.com/docx/Y6IcdywRXoTYSOxKwWvuLK09sFe" target="_blank"
-              rel="noopener noreferrer">
-              Base Extensions Front-end API
-            </a>
-            、
-            <a href="https://bytedance.feishu.cn/docx/HjCEd1sPzoVnxIxF3LrcKnepnUf" target="_blank"
-              rel="noopener noreferrer">
-              多维表格插件API
-            </a>
-          </div>
-        </div>
-        <div class="mb-3">
-          <label for="tableSelect" class="form-label">Select Table</label>
-          <select id='tableSelect' class="form-select"></select>
-        </div>
-        <button class='btn btn-outline-primary' type="button" id="addRecord">
-          Add Record
-        </button>
-      </form>
-  </main>
-  
-</body>
+  <div class="container">
+    <div class="controls">
+      <select id="tableSelect"></select>
+      <select id="viewSelect"></select>
+      <button id="refreshBtn">刷新气泡图</button>
+    </div>
 
+    <div id="chart"></div>
+  </div>
+
+  <!-- 插件入口 -->
+  <script type="module" src="./assets/index.ts"></script>
+</body>
 </html>
